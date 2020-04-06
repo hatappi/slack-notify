@@ -1,3 +1,4 @@
+// Package slack represents slack management
 package slack
 
 import (
@@ -12,12 +13,14 @@ import (
 
 const apiURL = "https://slack.com/api/"
 
+// Client represents slack client
 type Client struct {
 	APIClient APIClient
 
 	Chat *ChatMethod
 }
 
+// NewClient iniialize Slack Client
 func NewClient() *Client {
 	apiClient := newAPIClient()
 
@@ -28,22 +31,24 @@ func NewClient() *Client {
 	}
 }
 
+// APIClient represents ApiClient for Slack
 type APIClient interface {
 	Post(uri string, values interface{}) ([]byte, int, error)
 }
 
 type apiClient struct {
-	HttpClient *http.Client
+	HTTPClient *http.Client
 }
 
 func newAPIClient() *apiClient {
 	client := &http.Client{}
 
 	return &apiClient{
-		HttpClient: client,
+		HTTPClient: client,
 	}
 }
 
+// Post make POST method request
 func (apiClient *apiClient) Post(uri string, values interface{}) ([]byte, int, error) {
 	q, err := query.Values(values)
 	if err != nil {
@@ -57,7 +62,7 @@ func (apiClient *apiClient) Post(uri string, values interface{}) ([]byte, int, e
 
 	u.Path = path.Join(u.Path, uri)
 
-	resp, err := apiClient.HttpClient.Post(u.String(), "application/x-www-form-urlencoded", strings.NewReader(q.Encode()))
+	resp, err := apiClient.HTTPClient.Post(u.String(), "application/x-www-form-urlencoded", strings.NewReader(q.Encode()))
 	if err != nil {
 		return nil, 0, err
 	}
