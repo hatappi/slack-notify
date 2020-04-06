@@ -1,9 +1,12 @@
 package slack
 
 import (
-	"log"
+	"encoding/json"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/morikuni/failure"
+
+	"github.com/hatappi/slack-notify/internal/errors"
 )
 
 type ChatMethod struct {
@@ -37,17 +40,31 @@ type PostMessageParams struct {
 
 // PostMessage post message to Slack channel
 // https://api.slack.com/methods/chat.postMessage
-func (c *ChatMethod) PostMessage(params PostMessageParams) {
+func (c *ChatMethod) PostMessage(params PostMessageParams) error {
 	validate := validator.New()
 	err := validate.Struct(params)
 	if err != nil {
-		log.Fatal(err)
+		return failure.Wrap(err)
 	}
 
-	body, code, err := c.apiClient.Post("chat.postMessage", params)
+	body, _, err := c.apiClient.Post("chat.postMessage", params)
 	if err != nil {
-		log.Fatal(err)
+		return failure.Translate(err, errors.FailedRequest)
 	}
 
-	log.Printf("status is %d\nbody is %s", code, body)
+	m := make(map[string]interface{})
+	err = json.Unmarshal(body, &m)
+	if err != nil {
+		return failure.Wrap(err)
+	}
+
+	if isOk, ok := m["ok"]; ok {
+		if isOk.(bool) {
+			return nil
+		}
+
+		return failure.New(errors.FailedRequest, failure.Messagef("failed to request. reason is %s", m["error"]))
+	}
+
+	return nil
 }

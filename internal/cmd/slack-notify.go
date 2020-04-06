@@ -23,7 +23,7 @@ type SlackNotifyCmd struct {
 	Channel string
 }
 
-func (snc *SlackNotifyCmd) Run(text string, opts ...Option) {
+func (snc *SlackNotifyCmd) Run(text string, opts ...Option) error {
 	client := slack.NewClient()
 
 	params := slack.PostMessageParams{
@@ -36,5 +36,5 @@ func (snc *SlackNotifyCmd) Run(text string, opts ...Option) {
 		opt(&params)
 	}
 
-	client.Chat.PostMessage(params)
+	return client.Chat.PostMessage(params)
 }
