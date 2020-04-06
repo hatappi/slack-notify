@@ -9,6 +9,7 @@ import (
 	"github.com/hatappi/slack-notify/internal/errors"
 )
 
+// ChatMethod represents chat method
 type ChatMethod struct {
 	apiClient APIClient
 }
@@ -19,6 +20,7 @@ func newChatMethod(apiClient APIClient) *ChatMethod {
 	}
 }
 
+// PostMessageParams represents params for chat.postMessage
 type PostMessageParams struct {
 	Token          string  `url:"token" validate:"required"`
 	Channel        string  `url:"channel" validate:"required"`
@@ -40,7 +42,7 @@ type PostMessageParams struct {
 
 // PostMessage post message to Slack channel
 // https://api.slack.com/methods/chat.postMessage
-func (c *ChatMethod) PostMessage(params PostMessageParams) error {
+func (c *ChatMethod) PostMessage(params *PostMessageParams) error {
 	validate := validator.New()
 	err := validate.Struct(params)
 	if err != nil {

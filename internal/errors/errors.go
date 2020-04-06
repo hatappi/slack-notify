@@ -1,3 +1,4 @@
+// Package errors represents application errors
 package errors
 
 import (
@@ -5,5 +6,6 @@ import (
 )
 
 const (
+	// FailedRequest represents request failed error
 	FailedRequest failure.StringCode = "FailedRequest"
 )
