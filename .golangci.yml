@@ -305,14 +305,6 @@ issues:
         - staticcheck
       text: "SA9003:"
 
-    # Exclude lll issues for long lines with go:generate
-    - linters:
-        - lll
-      source: "^//go:generate "
-
-    - path: pomodoro/pomodoro.go
-      text: "singleCaseSwitch: should rewrite switch statement to if statement"
-
   # Independently from option `exclude` we use default exclude patterns,
   # it can be disabled by this option. To list all
   # excluded by default patterns execute `golangci-lint run --help`.
