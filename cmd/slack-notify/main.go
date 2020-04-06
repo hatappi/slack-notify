@@ -4,6 +4,8 @@ import (
 	"flag"
 	"log"
 
+	"github.com/morikuni/failure"
+
 	"github.com/hatappi/slack-notify/configs"
 	"github.com/hatappi/slack-notify/internal/cmd"
 )
@@ -14,6 +16,7 @@ var (
 	text        = flag.String("text", "", "notify text")
 	attachments = flag.String("attachments", "", "notify text")
 	blocks      = flag.String("blocks", "", "notify text")
+	verbose     = flag.Bool("verbose", false, "verbose output")
 )
 
 func main() {
@@ -56,5 +59,21 @@ func main() {
 		opts = append(opts, cmd.WithBlocks(config.Blocks))
 	}
 
-	c.Run(config.Text, opts...)
+	err = c.Run(config.Text, opts...)
+	if err == nil {
+		log.Println("success to notify")
+		return
+	}
+
+	if *verbose {
+		log.Fatalf("%+v", err)
+		return
+	}
+
+	msg, ok := failure.MessageOf(err)
+	if ok {
+		log.Fatalln(msg)
+	} else {
+		log.Fatalln(err)
+	}
 }
