@@ -7,6 +7,8 @@ if [ -z "$GITHUB_TOKEN" ]; then
   exit 1
 fi
 
+rsync -avr --exclude='.envrc' . ./tmp
+
 docker run --rm \
   -v $PWD:/go/src/github.com/${REPO} \
   -w /go/src/github.com/${REPO} \
