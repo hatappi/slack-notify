@@ -13,4 +13,4 @@ docker run --rm \
   -v $PWD/tmp:/go/src/github.com/${REPO} \
   -w /go/src/github.com/${REPO} \
   -e GITHUB_TOKEN \
-  goreleaser/goreleaser release
+  goreleaser/goreleaser release --rm-dist
