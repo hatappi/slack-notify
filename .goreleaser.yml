@@ -29,4 +29,4 @@ release:
     owner: hatappi
     name: slack-notify
 dockers:
-  dockerfile: Dockerfile
+  - dockerfile: Dockerfile
