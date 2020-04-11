@@ -3,3 +3,5 @@ dist/*
 
 bin/*
 !bin/.keep
+
+tmp
