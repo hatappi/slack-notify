@@ -13,6 +13,4 @@ docker run --rm \
   -v $PWD/tmp:/go/src/github.com/${REPO} \
   -w /go/src/github.com/${REPO} \
   -e GITHUB_TOKEN \
-  -it alpine sh
-
-#goreleaser/goreleaser release
+  goreleaser/goreleaser release
