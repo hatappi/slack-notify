@@ -11,6 +11,9 @@ rsync -avr --exclude='.envrc' --exclude='tmp' . ./tmp
 
 docker run --rm \
   -v $PWD/tmp:/go/src/github.com/${REPO} \
+  -v /var/run/docker.sock:/var/run/docker.sock \
   -w /go/src/github.com/${REPO} \
+  -e DOCKER_USERNAME \
+  -e DOCKER_PASSWORD \
   -e GITHUB_TOKEN \
   goreleaser/goreleaser release --rm-dist
