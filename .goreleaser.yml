@@ -32,4 +32,5 @@ release:
 dockers:
   - dockerfile: Dockerfile.goreleaser
     image_templates:
-      - hatappi/slack-notify
+      - "hatappi/slack-notify:latest"
+      - "hatappi/slack-notify:{{ .Tag }}"
