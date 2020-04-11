@@ -1,0 +1,3 @@
+FROM alpine
+COPY slack-notify /
+ENTRYPOINT ["/slack-notify"]

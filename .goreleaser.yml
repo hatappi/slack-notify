@@ -1,5 +1,6 @@
 builds:
-- env:
+- id: slack-notify
+  env:
     - CGO_ENABLED=0
   ldflags:
     - -s
@@ -29,6 +30,6 @@ release:
     owner: hatappi
     name: slack-notify
 dockers:
-  - dockerfile: Dockerfile
+  - dockerfile: Dockerfile.goreleaser
     image_templates:
       - hatappi/slack-notify
