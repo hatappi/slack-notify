@@ -7,10 +7,12 @@ if [ -z "$GITHUB_TOKEN" ]; then
   exit 1
 fi
 
-rsync -avr --exclude='.envrc' . ./tmp
+rsync -avr --exclude='.envrc' --exclude='tmp' . ./tmp
 
 docker run --rm \
-  -v $PWD:/go/src/github.com/${REPO} \
+  -v $PWD/tmp:/go/src/github.com/${REPO} \
   -w /go/src/github.com/${REPO} \
   -e GITHUB_TOKEN \
-  goreleaser/goreleaser release
+  -it alpine sh
+
+#goreleaser/goreleaser release
