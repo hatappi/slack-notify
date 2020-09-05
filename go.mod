@@ -1,6 +1,6 @@
 module github.com/hatappi/slack-notify
 
-go 1.13
+go 1.15
 
 require (
 	github.com/go-playground/validator/v10 v10.2.0
